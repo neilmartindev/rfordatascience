@@ -1,0 +1,109 @@
+---
+title: "R for Data Science Chapter 1: Data Visualisation"
+author: "Neil Martin"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true                # Enable Table of Contents
+    toc_depth: 3             # Set depth of the TOC
+    toc_float: true          # Move TOC
+    number_sections: true    # Number the sections
+    theme: cosmo             # Use a Bootstrap theme
+    highlight: tango 
+---
+
+### Loading libraries
+
+```{r setup}
+library(tidyverse)
+library(palmerpenguins)
+library(ggthemes)
+```
+
+### Exploration
+
+```{r eda}
+penguins
+
+glimpse(penguins)
+```
+### Ggplot
+
+```{r ggplot}
+
+ggplot(data = penguins,
+       mapping = aes(x= flipper_length_mm, y = body_mass_g)) +
+  geom_point()
+
+```
+
+### Visuals
+
+```{r vis_dist}
+
+ggplot(penguins, aes(x = species)) +
+  geom_bar()
+
+ggplot(penguins, aes(x = fct_infreq(species))) +
+  geom_bar()
+
+```
+
+### Numerical Variables
+
+```{r num_var}
+
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 200)
+
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 20)
+
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 2000)
+
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_density()
+
+```
+
+### Exercises
+
+#### Make a bar plot of species of penguins, where you assign species to the y aesthetic. How is this plot different?
+
+```{r exercise1}
+
+ggplot(penguins, aes(y = species)) +
+  geom_bar()
+
+```
+<p> The plot is different as it is horizontal in nature compared to putting the Species on the x axis. It shows the same results but just in a different fashion.</p>
+
+#### How are the following two plots different? Which aesthetic, color or fill, is more useful for changing the color of bars?
+
+```{r exercise2}
+
+ggplot(penguins, aes(x = species)) +
+  geom_bar(color = "red")
+
+ggplot(penguins, aes(x = species)) +
+  geom_bar(fill = "red")
+
+```
+
+<p>The first bar uses the color function to color the perimeter of the bar chart while the fill function fills the bar with a specified color. The fill option would be more useful as this can be used later to outline the differences between variables in colour.</p>
+
+### Numerical and categorical variables
+
+```{r num_cat_var}
+
+ggplot(penguins, aes(x = species, y = body_mass_g)) +
+  geom_boxplot() +
+  labs(title = "Body mass by Species (Boxplot)")
+
+ggplot(penguins, aes(x = body_mass_g, color = species)) +
+  geom_density(linewidth = 0.75) +
+  labs(title = "Body mass by Species (Density)")
+
+```
+
