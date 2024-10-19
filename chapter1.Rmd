@@ -49,7 +49,7 @@ ggplot(penguins, aes(x = fct_infreq(species))) +
 
 ```
 
-### Numerical Variables
+### Numerical variables
 
 ```{r num_var}
 
@@ -105,5 +105,114 @@ ggplot(penguins, aes(x = body_mass_g, color = species)) +
   geom_density(linewidth = 0.75) +
   labs(title = "Body mass by Species (Density)")
 
+ggplot(penguins, aes(x = body_mass_g, color = species, fill = species)) +
+  geom_density(alpha = 0.5) +
+  labs(title = "Body mass by Species (w/ alpha 0.5)")
+
 ```
 
+### Two catergorial variables
+
+```{r two_cat_var}
+
+ggplot(penguins, aes(x = island, fill = species)) +
+  geom_bar() +
+  labs(title = "Island and Species")
+
+ggplot(penguins, aes(x = island, fill = species)) +
+  geom_bar(position = "fill") +
+  labs(title = "Island and Speices (w/ position fill)")
+
+```
+### Two plus numerical variables
+
+```{r two_run_var}
+
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point()
+
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(aes(color = species, shape = island))
+
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(aes(color = species, shape = species)) +
+  facet_wrap(~island)
+
+```
+
+### Exercises
+
+#### The mpg data frame that is bundled with the ggplot2 package contains 234 observations collected by the US Environmental Protection Agency on 38 car models. Which variables in mpg are categorical? Which variables are numerical? (Hint: Type ?mpg to read the documentation for the dataset.) How can you see this information when you run mpg?
+
+```{r exercise3}
+
+mpg
+
+glimpse(mpg)
+
+```
+<p> Categorical: manufacturer, model, trans, drv, fl, class <br>
+    Numerical: displ, year, cyl,cty, hwy </p>
+  
+#### Make a scatterplot of hwy vs. displ using the mpg data frame. Next, map a third, numerical variable to color, then size, then both color and size, then shape. How do these aesthetics behave differently for categorical vs. numerical variables?
+
+```{r exercise4}
+
+ggplot(mpg, aes(x = hwy, y = displ)) +
+  geom_point() +
+  labs(title = "Highway miles by displacement")
+
+ggplot(mpg, aes(x = hwy, y = displ)) +
+  geom_point(aes(colour = year)) +
+  labs(title = "Highway miles by displacement and year")
+
+ggplot(mpg, aes(x = hwy, y = displ)) +
+  geom_point(aes(color = year, shape = drv)) +
+  labs(title = "Highway miles by displacement, year and drive type")
+
+```
+<p> The aesthetics behave differently with the x and y variables being mapped on their corrosponding axis while color changes the colour of the observation based on its numerical value. For example, a car made in 2008 is a light blue colour and the colour gets darker as the car ages. The shape reflects the drive train of the car so it's easier to find either category.</p>
+
+#### In the scatterplot of hwy vs. displ, what happens if you map a third variable to linewidth?
+
+```{r exercise5}
+
+ggplot(mpg, aes(x = hwy, y = displ, linewidth = cty)) +
+  geom_point()
+
+```
+<p> Linewidth is ignored.</p>
+
+#### What happens if you map the same variable to multiple aesthetics?
+
+```{r exercise6}
+
+ggplot(mpg, aes(x = hwy, y = displ)) +
+  geom_point(aes(colour = cty))
+
+```
+<p> The cty variable is now added into the plot as a colour.</p>
+
+#### Make a scatterplot of bill_depth_mm vs. bill_length_mm and color the points by species. What does adding coloring by species reveal about the relationship between these two variables? What about faceting by species?
+
+```{r exercise7}
+
+ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm, colour = species)) +
+  geom_point()
+
+```
+<p> The colouring reveals that Gentoo penguins have the shortest bill depth but the longest bill length. While chinstrap penguins have a larger bill length than the Gentoo and Adelie penguins. The Adelie penguins have the shortest bill length but have slightly more observations where their bill depth is longer than the Chinstrap penguins.</p>
+
+#### Why does the following yield two separate legends? How would you fix it to combine the two legends?
+
+```{r exercise8}
+ggplot(
+  data = penguins,
+  mapping = aes(
+    x = bill_length_mm, y = bill_depth_mm, 
+    color = species, shape = species
+  )
+) +
+  geom_point()
+```
+<p> To fix this visualisation, I removed the additional lavel which was present in the end part of the code. This was creating a duplicate of the legend. </p>
