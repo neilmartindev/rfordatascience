@@ -216,3 +216,43 @@ ggplot(
   geom_point()
 ```
 <p> To fix this visualisation, I removed the additional lavel which was present in the end part of the code. This was creating a duplicate of the legend. </p>
+
+#### Create the two following stacked bar plots. Which question can you answer with the first one? Which question can you answer with the second one?
+
+```{r exercise9}
+
+ggplot(penguins, aes(x = island, fill = species)) +
+  geom_bar(position = "fill")
+ggplot(penguins, aes(x = species, fill = island)) +
+  geom_bar(position = "fill")
+
+```
+<p> From the first plot, you can see that Torgersen island is populated by Adelie penguins only. Dream island is populated by both Adelie and Chinstrap penguins with Chinstrap penguins having a slightly higher popuation. Biscoe island is 75% populated by Gentoo penguins with a pocket population of 25% Adelie penguins.</p>
+
+### Saving your plots
+
+```{r saving_plots}
+
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point()
+ggsave(filename = "penguin-plot.png")
+
+```
+### Last exercise
+
+#### Run the following lines of code. Which of the two plots is saved as mpg-plot.png? Why?
+
+#### What do you need to change in the code above to save the plot as a PDF instead of a PNG? How could you find out what types of image files would work in ggsave()?
+
+```{r exercise10}
+
+ggplot(mpg, aes(x = class)) +
+  geom_bar()
+ggplot(mpg, aes(x = cty, y = hwy)) +
+  geom_point()
+ggsave("mpg-plot.png")
+
+```
+
+<p> The file is being saved becasue the ggsave function is used to same the plot as a png. To save it as a pdf it would need a ggsave of mpg-plot.pdf.</p>
+
