@@ -1,0 +1,66 @@
+---
+title: "R for Data Science Chapter 2: Workflow Basics"
+author: "Neil Martin"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true                # Enable Table of Contents
+    toc_depth: 3             # Set depth of the TOC
+    toc_float: true          # Move TOC
+    number_sections: true    # Number the sections
+    theme: cosmo             # Use a Bootstrap theme
+    highlight: tango 
+---
+
+### Loading libraries
+
+```{r setup}
+library(tidyverse)
+library(ggthemes)
+```
+
+### Exercises
+
+#### Why does this code not work?
+
+```{r exercise1}
+
+my_variable <- 10
+
+my_variable
+
+```
+
+<p> This code didn't work due to not running the code which defines the variable beforehand.</p>
+
+#### Tweak each of the following R commands so that they run correctly:
+
+```{r exercise2}
+
+library(tidyverse)
+
+ggplot(data = mpg, aes(x = displ, y = hwy)) + 
+  geom_point() +
+  geom_smooth(method = "lm")
+
+
+```
+#### Press Option + Shift + K / Alt + Shift + K. What happens? How can you get to the same place using the menus?
+
+<p> Help > Keyboard Shortcuts Help </p>
+
+#### Let’s revisit an exercise from the Section 1.6. Run the following lines of code. Which of the two plots is saved as mpg-plot.png? Why?
+
+```{r exercise4}
+
+my_bar_plot <- ggplot(mpg, aes(x = class)) +
+  geom_bar()
+my_scatter_plot <- ggplot(mpg, aes(x = cty, y = hwy)) +
+  geom_point()
+ggsave(filename = "mpg-plot.png", plot = my_bar_plot)
+
+```
+#### Let’s revisit an exercise from the Section 1.6. Run the following lines of code. Which of the two plots is saved as mpg-plot.png? Why?
+
+<p> The bar plot gets saved as. This is due to the ggsave function defining the plot to be the my_bar_plot variable which stores the bar plot.</p>
+

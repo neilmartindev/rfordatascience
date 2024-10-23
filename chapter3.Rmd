@@ -1,0 +1,28 @@
+---
+title: "R for Data Science Chapter 3: Data Transformation"
+author: "Neil Martin"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true                # Enable Table of Contents
+    toc_depth: 3             # Set depth of the TOC
+    toc_float: true          # Move TOC
+    number_sections: true    # Number the sections
+    theme: cosmo             # Use a Bootstrap theme
+    highlight: tango 
+---
+
+### Loading libraries
+
+```{r setup}
+library(tidyverse)
+library(ggthemes)
+```
+
+### Example
+
+```{r example}
+
+
+
+```
