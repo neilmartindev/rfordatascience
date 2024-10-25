@@ -302,6 +302,71 @@ df <- tibble(
   z = c("K", "K", "L", "L", "K")
 )
 
+df |> 
+  group_by(y)
+
+df |> 
+  arrange(y)
+
+df |> 
+  group_by(y) |> 
+  summarise(mean_x = mean(x))
+
+df |>
+  group_by(y, z) |>
+  summarize(mean_x = mean(x))
+
+df |>
+  group_by(y, z) |>
+  summarize(mean_x = mean(x), .groups = "drop")
+
+df |>
+  group_by(y, z) |>
+  summarize(mean_x = mean(x))
+
+df |>
+  group_by(y, z) |>
+  mutate(mean_x = mean(x))
+
+```
+<p> a) I think that grouping by Y will create two groups based on the letters present.
+
+b) For the arrange, I predict that this will arrange the y column in alphabetical order.
+
+c) This will calculate the mean of the x column and create a group based on the y column.
+
+d) This will calculate the mean of the x column and create a group based on the y and z column.
+
+e) This output will put a mean_x column in the dataframe and then ungroups the y and z groups.  
+
+f) The first code runs and replaces the x column with the mean_x column. While the other function keeps the x column and has the mean_x column added too.
+</p>
+
+### Case study: aggregates and sample size
+
+#### Whenever you do any aggregation, it’s always a good idea to include a count (n()). That way, you can ensure that you’re not drawing conclusions based on very small amounts of data. We’ll demonstrate this with some baseball data from the Lahman package. Specifically, we will compare what proportion of times a player gets a hit (H) vs. the number of times they try to put the ball in play (AB):
+
+```{r case_study}
+
+batters <- Lahman::Batting |> 
+  group_by(playerID) |> 
+  summarize(
+    performance = sum(H, na.rm = TRUE) / sum(AB, na.rm = TRUE),
+    n = sum(AB, na.rm = TRUE)
+  )
+
+batters
+
+batters |> 
+  filter(n > 100) |> 
+  ggplot(aes(x = n, y = performance)) +
+  geom_point(alpha = 1 / 10) +
+  geom_smooth(se = FALSE) +
+  labs(title = "Baseball Players")
+
+batters |> 
+  arrange(desc(performance))
+
 ```
 
 
