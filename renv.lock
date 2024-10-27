@@ -20,6 +20,17 @@
       ],
       "Hash": "065ae649b05f1ff66bb0c793107508f5"
     },
+    "Lahman": {
+      "Package": "Lahman",
+      "Version": "12.0-0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "dplyr"
+      ],
+      "Hash": "72bb09fea4d73d7ed058ffb30150cc7f"
+    },
     "MASS": {
       "Package": "MASS",
       "Version": "7.3-61",

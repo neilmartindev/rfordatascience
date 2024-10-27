@@ -20,7 +20,7 @@ library(tidyverse)
 library(ggplot2)
 ```
 
-### dply basics
+### dplyr basics
 
 ```{r example}
 

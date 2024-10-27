@@ -1,0 +1,125 @@
+---
+title: "R for Data Science Chapter 4: Workflow: Code Style"
+author: "Neil Martin"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true                # Enable Table of Contents
+    toc_depth: 3             # Set depth of the TOC
+    toc_float: true          # Move TOC
+    number_sections: true    # Number the sections
+    theme: cosmo             # Use a Bootstrap theme
+    highlight: tango 
+---
+
+### Prerequisites
+
+```{r setup}
+library(nycflights13)
+library(tidyverse)
+library(ggplot2)
+```
+
+### Names
+
+```{r names}
+
+# Strive for
+
+short_flights <- flights |> filter(air_time < 60)
+
+short_flights
+
+```
+
+### spaces 
+
+```{r spaces}
+
+# Strive for 
+
+a <- 5
+b <- 6
+d <- 7
+
+z <- (a + b)^2 / d
+
+z
+
+flights |> 
+  mutate(
+    speed      = distance / air_time,
+    dep_hour   = dep_time %/% 100,
+    dep_minute = dep_time %% 100
+  )
+
+```
+
+### Pipes
+
+```{r pipes}
+
+flights |> 
+  filter(!is.na(arr_delay), !is.na(tailnum)) |> 
+  count(dest)
+
+flights |>
+  group_by(tailnum) |> 
+  summarise(
+    delay = mean(arr_delay, na.rm = TRUE),
+    n = n()
+  )
+
+```
+
+### ggplot2
+
+```{r ggplot2}
+
+flights |> 
+  group_by(month) |> 
+  summarise(
+    delay = mean(arr_delay, na.rm = TRUE)
+  ) |> 
+  ggplot(aes(x = month, y = delay)) +
+  geom_point() +
+  geom_line()
+
+```
+
+### Exercises
+
+#### Restyle the following pipelines following the guidelines above.
+
+```{r exercises}
+
+flights|>filter(dest=="IAH")|>group_by(year,month,day)|>summarize(n=n(),
+delay=mean(arr_delay,na.rm=TRUE))|>filter(n>10)
+
+flights|>filter(carrier=="UA",dest%in%c("IAH","HOU"),sched_dep_time>
+0900,sched_arr_time<2000)|>group_by(flight)|>summarize(delay=mean(
+arr_delay,na.rm=TRUE),cancelled=sum(is.na(arr_delay)),n=n())|>filter(n>10)
+
+flights |> 
+  filter(dest == "IAH") |> 
+  group_by(year,month,day) |> 
+  summarise(n = n(),
+            delay = mean(arr_delay, na.rm = TRUE)) |> 
+  filter(n > 10)
+
+flights |> 
+  filter(carrier == "UA",
+         dest %in% c("IAH", "HOU"),
+         sched_dep_time > 0900,
+         sched_arr_time < 2000) |> 
+  group_by(flight) |> 
+  summarise(delay = mean(arr_delay, na.rm = TRUE),
+            cancelled = sum(is.na(arr_delay)),
+            n = n()) |> 
+  filter (n > 10)
+
+```
+
+
+
+
