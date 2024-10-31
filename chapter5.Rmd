@@ -132,3 +132,109 @@ df |>
 
 ### Many variable in column names
 
+```{r many_variables}
+
+who2
+
+who2 |> 
+  pivot_longer(
+    cols = !(country:year),
+    names_to = c("diagnosis", "gender", "age"),
+    names_sep = "_",
+    values_to = "count"
+  )
+
+```
+
+![pivoting3](https://r4ds.hadley.nz/diagrams/tidy-data/multiple-names.png)
+
+```{r data_var_names}
+
+household
+
+household |> 
+  pivot_longer(
+    cols = !family,
+    names_to = c(".value", "child"),
+    names_sep = "_",
+    values_drop_na = TRUE
+  )
+
+```
+
+![pivoting4](https://r4ds.hadley.nz/diagrams/tidy-data/names-and-values.png)
+
+### Widening data
+
+```{r widening_data}
+
+cms_patient_experience
+
+cms_patient_experience |> 
+  distinct(measure_cd, measure_title)
+
+cms_patient_experience |> 
+  pivot_wider(
+    names_from = measure_cd,
+    values_from = prf_rate
+  )
+
+cms_patient_experience |> 
+  pivot_wider(
+    id_cols = starts_with("org"),
+    names_from = measure_cd,
+    values_from = prf_rate
+  )
+
+```
+### How pivot_wider() works
+
+```{r pivot_wider}
+
+df <- tribble(
+  ~id, ~measurement, ~value,
+  "A",        "bp1",    100,
+  "B",        "bp1",    140,
+  "B",        "bp2",    115, 
+  "A",        "bp2",    120,
+  "A",        "bp3",    105
+)
+
+df
+
+df |> 
+  pivot_wider(
+    names_from = measurement,
+    values_from = value
+  )
+
+df |> 
+  distinct(measurement) |> 
+  pull()
+
+df |> 
+  select(-measurement, -value) |> 
+  distinct()
+
+df |> 
+  select(-measurement, -value) |> 
+  distinct() |> 
+  mutate(x = NA, y = NA, z = NA)
+
+df <- tribble(
+  ~id, ~measurement, ~value,
+  "A",        "bp1",    100,
+  "A",        "bp1",    102,
+  "A",        "bp2",    120,
+  "B",        "bp1",    140, 
+  "B",        "bp2",    115
+)
+
+df |>
+  pivot_wider(
+    names_from = measurement,
+    values_from = value
+  )
+
+```
+

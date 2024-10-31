@@ -1,0 +1,30 @@
+---
+title: "R for Data Science Chapter 6: Script and Projects"
+author: "Neil Martin"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true                # Enable Table of Contents
+    toc_depth: 3             # Set depth of the TOC
+    toc_float: true          # Move TOC
+    number_sections: true    # Number the sections
+    theme: cosmo             # Use a Bootstrap theme
+    highlight: tango 
+---
+
+### Prerequisites
+
+```{r setup}
+
+library(nycflights13)
+library(tidyverse)
+library(ggplot2)
+
+```
+
+### Scripts
+
+```{r scripts}
+
+
+```
