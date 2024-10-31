@@ -1,0 +1,134 @@
+---
+title: "R for Data Science Chapter 5: Data Tidying"
+author: "Neil Martin"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true                # Enable Table of Contents
+    toc_depth: 3             # Set depth of the TOC
+    toc_float: true          # Move TOC
+    number_sections: true    # Number the sections
+    theme: cosmo             # Use a Bootstrap theme
+    highlight: tango 
+---
+
+### Prerequisites
+
+```{r setup}
+
+library(nycflights13)
+library(tidyverse)
+library(ggplot2)
+
+```
+
+### Tidy data
+
+```{r tidy_data}
+
+table1
+
+table2  
+
+table3
+
+table1 |> 
+  mutate(rate = cases / population * 10000)
+
+table1 |> 
+  group_by(year) |> 
+  summarise(total_cases = sum(cases))
+
+ggplot(table1, aes(x = year, y = cases)) +
+  geom_line(aes(group = country), color = "grey50") +
+  geom_point(aes(color = country, shape = country)) +
+  scale_x_continuous(breaks = c(1999, 2000))
+
+```
+### Exercises
+
+#### For each of the sample tables, describe what each observation and each column represents.
+
+<p> For table1, it has 4 variables. Country, year, cases and population.
+
+For table2, it also has 4 variables. Country, year, type and count. It has 4 observations for each country.
+
+For table3, this is split into 3 variables. Country, year and rate and has two observations for each nation. </p>
+
+#### Sketch out the process you’d use to calculate the rate for table2 and table3. You will need to perform four operations:
+
+a) Extract the number of TB cases per country per year.
+b) Extract the matching population per country per year.
+c) Divide cases by population, and multiply by 10000.
+d) Store back in the appropriate place.
+
+<p> I would group the dataset by year and then use the mutate function to get the values for cases count and population count. In that function I'd then define a new variable called rate and divide the cases by the population and * 10000. </p>
+
+<p> In table3, I'd split the rate from the / value and create two separate columns for cases count and population count. I'd then group them by year and do the same as the above my using the mutate function to replace the current one. </p>
+
+### Lengthening data
+
+```{r lengthening_data}
+
+billboard
+
+billboard |> 
+  pivot_longer(
+    cols = starts_with("wk"),
+    names_to = "week",
+    values_to = "rank",
+    values_drop_na = TRUE
+  )
+
+billboard_longer <- billboard |> 
+  pivot_longer(
+    cols = starts_with("wk"), 
+    names_to = "week", 
+    values_to = "rank",
+    values_drop_na = TRUE
+  ) |> 
+  mutate(
+    week = parse_number(week)
+  )
+
+billboard_longer
+
+billboard_longer |> 
+  ggplot(aes(x = week, y = rank, group = track)) +
+  geom_line(alpha = 0.25) +
+  scale_y_reverse()
+
+
+```
+
+### Pivoting
+
+```{r pivoting}
+
+df <- tribble(
+  ~id, ~bp1, ~bp2,
+  "A", 100, 120,
+  "B", 140, 115,
+  "C", 120, 125
+)
+
+df
+
+df |> 
+  pivot_longer(
+    cols = bp1:bp2,
+    names_to = "measurement",
+    values_to = "value"
+  )
+
+```
+
+#### How reshaping works
+
+<p> Datasets are just large matrices of data. </p>
+
+![pivoting1](https://r4ds.hadley.nz/diagrams/tidy-data/variables.png)
+![pivoting2](https://r4ds.hadley.nz/diagrams/tidy-data/column-names.png)
+
+### Many variable in column names
+

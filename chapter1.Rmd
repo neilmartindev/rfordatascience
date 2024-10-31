@@ -23,9 +23,11 @@ library(ggthemes)
 ### Exploration
 
 ```{r eda}
+
 penguins
 
 glimpse(penguins)
+
 ```
 ### Ggplot
 

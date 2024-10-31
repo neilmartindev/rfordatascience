@@ -15,9 +15,11 @@ output:
 ### Prerequisites
 
 ```{r setup}
+
 library(nycflights13)
 library(tidyverse)
 library(ggplot2)
+
 ```
 
 ### Names

@@ -15,8 +15,10 @@ output:
 ### Loading libraries
 
 ```{r setup}
+
 library(tidyverse)
 library(ggthemes)
+
 ```
 
 ### Exercises
