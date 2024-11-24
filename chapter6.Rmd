@@ -26,5 +26,26 @@ library(ggplot2)
 
 ```{r scripts}
 
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class))
+
+not_cancelled <- flights |>
+  filter(!is.na(dep_delay), !is.na(arr_delay))
+
+not_cancelled |>
+  group_by(year, month, day) |>
+  summarise(mean = mean(dep_delay))
+  
+```
+```{r diamonds}
+
+ggplot(diamonds, aes(x = carat, y = price)) +
+  geom_hex()
+ggsave("diamonds.png")
+
+write_csv(diamonds, "data/diamonds.csv")
 
 ```
+
+
+
