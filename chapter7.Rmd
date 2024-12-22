@@ -104,3 +104,104 @@ read_csv(
 
 <p> The fwf_widths() and fwf_positions(). </p>
 
+4. Sometimes strings in a CSV file contain commas. To prevent them from causing problems, they need to be surrounded by a quoting character, like " or '. By default, read_csv() assumes that the quoting character will be ". To read the following text into a data frame, what argument to read_csv() do you need to specify?
+
+<p> quote = "'" </p>
+
+5. Identify what is wrong with each of the following inline CSV files. What happens when you run the code?
+
+
+```{r}
+read_csv("a,b\n1,2,3\n4,5,6")
+read_csv("a,b,c\n1,2\n1,2,3,4")
+read_csv("a,b\n\"1")
+read_csv("a,b\n1,2\na,b")
+read_csv("a;b\n1;3")
+```
+6. Practice referring to non-syntactic names in the following data frame by:
+
+Extracting the variable called 1.
+Plotting a scatterplot of 1 vs. 2.
+Creating a new column called 3, which is 2 divided by 1.
+Renaming the columns to one, two, and three.
+
+```{r}
+
+annoying <- tibble(
+  `1` = 1:10,
+  `2` = `1` * 2 + rnorm(length(`1`))
+)
+
+extracted_1 <- annoying$'1'
+extracted_1
+
+ggplot(annoying, aes(x = '1', y = '2')) +
+  geom_point() +
+  labs(x = "1", y = "2", title = "Scatterplot of 1 vs 2")
+
+annoying3 <- annoying |> 
+  mutate(`3` = `2` / `1`)
+annoying3
+
+annoying_column <- annoying3 |> 
+  rename(one = `1`, two = `2`, three = `3`)
+annoying_column
+
+
+```
+
+### Controlling column types
+
+```{r}
+read_csv("
+  logical,numeric,date,string
+  TRUE,1,2021-01-15,abc
+  false,4.5,2021-02-15,def
+  T,Inf,2021-02-16,ghi
+")
+
+simple_csv <- "
+x
+10
+.
+20
+30"
+
+read_csv(simple_csv)
+
+df <- read_csv(
+  simple_csv,
+  col_types = list(x= col_double())
+)
+
+problems(df)
+
+read_csv(simple_csv, na = ".")
+
+another_csv <- "
+x,y,z
+1,2,3"
+
+read_csv(
+  another_csv,
+  col_types = cols(.default = col_character())
+)
+
+read_csv(
+  another_csv,
+  col_types = cols_only(x = col_character())
+)
+
+```
+
+### Reading data from multiple files
+
+```{r}
+
+
+
+```
+
+
+
+
